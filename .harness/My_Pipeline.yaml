@@ -1,0 +1,39 @@
+pipeline:
+  name: My_Pipeline
+  identifier: My_Pipeline
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: harnessgitconnector
+        repoName: new_harness_repo
+        build: <+input>
+  stages:
+    - stage:
+        name: stage_name
+        identifier: stage_name
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry_1
+                  identifier: BuildAndPushDockerRegistry_1
+                  spec:
+                    connectorRef: account.harnessImage
+                    repo: harness
+                    tags:
+                      - latest
+        when:
+          pipelineStatus: Success
